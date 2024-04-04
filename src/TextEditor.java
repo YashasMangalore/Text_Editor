@@ -9,6 +9,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.io.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class TextEditor implements ActionListener
 {
@@ -31,29 +33,29 @@ public class TextEditor implements ActionListener
         textArea=new JTextArea();
         textArea.setBorder(new EmptyBorder(5, 5, 5, 5)); // Add padding around the text area
         // Set font
-        Font font = new Font("Consolas", Font.ROMAN_BASELINE, 17);
+        Font font = new Font("Consolas", Font.PLAIN, 17);
         textArea.setFont(font);
         //Initialize file menu and edit menu items
         newFile=new JMenuItem("New window   ");
-        newFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_MASK));
+        newFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_DOWN_MASK));
         openFile=new JMenuItem("Open");
-        openFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_MASK));
+        openFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_DOWN_MASK));
         saveFile=new JMenuItem("Save as");
-        saveFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK));
+        saveFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK));
         close=new JMenuItem("Close");
-        close.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W, InputEvent.CTRL_MASK));
+        close.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W, InputEvent.CTRL_DOWN_MASK));
         cut=new JMenuItem("Cut");
-        cut.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.CTRL_MASK));
+        cut.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.CTRL_DOWN_MASK));
         copy=new JMenuItem("Copy");
-        copy.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_MASK));
+        copy.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_DOWN_MASK));
         paste=new JMenuItem("Paste");
-        paste.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, InputEvent.CTRL_MASK));
+        paste.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, InputEvent.CTRL_DOWN_MASK));
         selectAll=new JMenuItem("Select All ");
-        selectAll.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_MASK));
+        selectAll.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_DOWN_MASK));
         undo = new JMenuItem("Undo");
-        undo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, InputEvent.CTRL_MASK));
+        undo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, InputEvent.CTRL_DOWN_MASK));
         redo = new JMenuItem("Redo");
-        redo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Y, InputEvent.CTRL_MASK));
+        redo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Y, InputEvent.CTRL_DOWN_MASK));
         //Add action listener
         newFile.addActionListener(this);
         openFile.addActionListener(this);
@@ -170,9 +172,9 @@ public class TextEditor implements ActionListener
                     bufferedReader.close();
                     fileReader.close();
                 }
-                catch (IOException i)
-                {
-                    i.printStackTrace();
+                catch (IOException ex) {
+                    // Log the exception instead of printing the stack trace
+                    Logger.getLogger(TextEditor.class.getName()).log(Level.SEVERE, "Error opening file", ex);
                 }
             }
         }
@@ -192,9 +194,9 @@ public class TextEditor implements ActionListener
                     bufferedWriter.close();
                     fileWriter.close();
                 }
-                catch(IOException i)
-                {
-                    i.printStackTrace();
+                catch (IOException ex) {
+                    // Log the exception instead of printing the stack trace
+                    Logger.getLogger(TextEditor.class.getName()).log(Level.SEVERE, "Error saving the file", ex);
                 }
             }
         }
